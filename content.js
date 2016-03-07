@@ -1,11 +1,19 @@
 chrome.runtime.onMessage.addListener(
 	function(message, sender, sendResponse) {
-		console.log('Got message from background: ', message);
+		console.log(message);
 		if (message){
 			console.log("fuck social media");
+		} else {
+			console.log("werk werk werk");
 		}
 	}
 );
+
+function messageBack(hide){
+	chrome.runtime.sendMessage({message: hide}, function(response) {
+		console.log(response.ack);
+	});
+}
 
 function getHiddenProp(){
 		var prefixes = ['webkit','moz','ms','o'];
@@ -27,17 +35,17 @@ var visProp = getHiddenProp();
 if (visProp) {
 	var evtname = visProp.replace(/[H|h]idden/,'') + 'visibilitychange';
 	document.addEventListener(evtname, visChange);
-	console.log("bitches");
 }
 
 function visChange(){
-	console.log("i got called");
 	var hide;
 	if (isHidden()){
 		hide = true;
-		console.log(hide);
+		messageBack(hide);
+		console.log("hide "+hide);
 	}else{
 		hide = false;
-		console.log(hide);
+		messageBack(hide);
+		console.log("hide "+hide);
 	}
 }
