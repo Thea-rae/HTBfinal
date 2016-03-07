@@ -1,10 +1,13 @@
 chrome.runtime.onMessage.addListener(
 	function(message, sender, sendResponse) {
 		console.log(message);
-		if (message){
+		if(message == true){
 			console.log("fuck social media");
-		} else {
+		} else if(message == false) {
 			console.log("werk werk werk");
+		} else{
+			URL =message;
+			window.open(URL, "heigh=800,width=400,toolbar=no,menubar=no");
 		}
 	}
 );

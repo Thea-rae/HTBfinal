@@ -1,17 +1,20 @@
 {
-  "name": "Political Procrastination",
-  "description": "gives you alternatives to social media when procratinating",
-  "version": "0.1",
-  "permissions": [
-    "tabs",
-    "<all_urls>"
-  ],
-  "background": {
-    "scripts": ["background.js"]
-  },
-  "content_scripts": [{
-    "matches": [ "<all_urls>" ],
-    "js": ["content.js" ]
-  }],
-  "manifest_version": 2
+	"name": "Political Procrastination",
+	"description": "gives you alternatives to social media when procratinating",
+	"version": "0.1",
+	"permissions": [
+		//"location",
+		"tabs",
+		"<all_urls>",
+		"notifications",
+		"idle"
+	],
+	"background": {
+		"scripts": ["background.js"]
+	},
+	"content_scripts": [{
+		"matches": [ "<all_urls>" ],
+		"js": ["content.js"]
+	}],
+	"manifest_version": 2
 }

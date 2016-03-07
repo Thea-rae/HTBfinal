@@ -1,15 +1,30 @@
 chrome.tabs.onActivated.addListener(function(activeInfo){
 	chrome.tabs.query({'active':true, 'currentWindow':true}, function(tabs) {
 	var url = tabs[0].url;
-		if(matches(url)){
+		if(matches(url)&&vis){
+			console.log("is true");
+			timer(true);
 			message = true;
 			chrome.tabs.sendMessage(tabs[0].id, message);
 		} else {
+			timer(false);
 			message = false;
 			chrome.tabs.sendMessage(tabs[0].id, message);
 		}
 	});
 });
+
+var vis= true;
+chrome.runtime.onMessage.addListener(
+	function(request, sender, sendResponse) {
+		if (request.message == false){
+			sendResponse({ack: "visbile "});
+			vis = true;
+		} else {
+			vis = false;
+		}
+	}
+);
 
 function matches(url){
 	var urls = [
@@ -30,35 +45,20 @@ function matches(url){
 	}
 }
 
-chrome.runtime.onMessage.addListener(
-	function(request, sender, sendResponse) {
-		// console.log(sender.tab ?
-		// 						"from a content script:" + sender.tab.id:
-		// 						"from the extension");
-		if (request.message == false){
-			timer(message);
-			console.log("vis "+message);
-			sendResponse({ack: "visbile "});
-		} else {
-			timer(message);
-			console.log("invis"+ message);
-		}
-
-	}
-);
-
 var time;
+var myURL;
 
 function timer (boo){
-	if(!boo){
-		time = setInterval(fiveMinutes(), 5000);//using seconds to test
-	} else {
-		clearInterval(time);
+	if(boo){
+		time = setTimeout(fiveMinutes, 5000);//using seconds to test
 	}
 }
 
 function fiveMinutes(){
-	message = "BITCH PLEASE";
+	console.log("got called");
+	var region = 'nyregion'; //will be base on reverse geocoding later
+	var baseNewsURL = 'www.newyorktimes.com/section/';
+	message = baseNewsURL+region;
 	chrome.tabs.query({'active':true, 'currentWindow':true}, function(tabs) {
 		chrome.tabs.sendMessage(tabs[0].id, message);
 	})
