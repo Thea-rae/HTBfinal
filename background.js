@@ -57,7 +57,7 @@ function timer (boo){
 function fiveMinutes(){
 	console.log("got called");
 	var region = 'nyregion'; //will be base on reverse geocoding later
-	var baseNewsURL = 'www.newyorktimes.com/section/';
+	var baseNewsURL = 'http://www.newyorktimes.com/section/';
 	message = baseNewsURL+region;
 	chrome.tabs.query({'active':true, 'currentWindow':true}, function(tabs) {
 		chrome.tabs.sendMessage(tabs[0].id, message);
